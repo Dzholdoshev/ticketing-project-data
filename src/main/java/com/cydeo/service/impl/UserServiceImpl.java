@@ -46,7 +46,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteByUserName(String username) {
+
         userRepository.deleteByUserName(username);
+    }
+
+    @Override
+    public void delete(String username) {
+        //go to db and get that user with user name
+        //change the isdeleted filed to true
+        //save the object in th db
+       User user = userRepository.findByUserName(username);
+       user.setIsDeleted(true);
+       userRepository.save(user);
+
+
+    }
+
+    @Override
+    public List<UserDTO> listAllByRole(String role) {
+        List<User> users = userRepository.findByRoleDescriptionIgnoreCase(role);
+
+      return   users.stream()
+                .map(userMapper::convertToUserDto)
+                .collect(Collectors.toList());
+
 
     }
 
@@ -60,6 +83,7 @@ public class UserServiceImpl implements UserService {
 
         //set id to the converted object
         convertedUser.setId(user.getId());
+        //save the updated user in the db
         userRepository.save(convertedUser);
         return findByUserName(user.getUserName());
     }

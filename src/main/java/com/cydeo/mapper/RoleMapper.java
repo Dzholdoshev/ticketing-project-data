@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoleMapper {
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public RoleMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
@@ -21,4 +21,8 @@ public class RoleMapper {
     public RoleDTO convertToDto(Role entity){
         return modelMapper.map(entity,RoleDTO.class);
     }
+
+
+
+
 }
